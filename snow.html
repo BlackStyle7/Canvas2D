@@ -11,8 +11,13 @@
 		<div class="container"></div>
 		<script type="module">
             import Tervas from './js/Tervas/Tervas.js';
+            import Ball from './js/Tervas/Scene/Ball.js';
 
-            const tervas = new Tervas();
+            const container = document.getElementsByClassName( 'container' )[ 0 ];
+            const tervas = new Tervas( container );
+
+            const ball = new Ball();
+            tervas.add( ball );
 		</script>
 	</body>
 </html>
