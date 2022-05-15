@@ -11,6 +11,9 @@ const Tervas = class {
 		this.scene = new Scene();
 		this.clock = new Clock();
 
+		// tool canvas
+		this.toolCanvas = undefined;
+
 		// drive frame
 		window.requestAnimationFrame( this.driveFrame );
 	}

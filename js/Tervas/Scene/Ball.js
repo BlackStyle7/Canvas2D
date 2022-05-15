@@ -1,4 +1,4 @@
-import Command from '../Renderer/Command.js';
+import Command from '../Commands/Command.js';
 
 const Ball = class {
 
@@ -9,7 +9,12 @@ const Ball = class {
 
 	initCommand() {
 
-		const command = new Command();
+		const command = new Command( {
+			render: ( cxt, width, height ) => {
+				cxt.arc( 100, 100, 50, 0, Math.PI*2, true );
+				cxt.fill();
+			}
+		} );
 
 		return command;
 	}

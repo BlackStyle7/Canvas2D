@@ -1,11 +1,15 @@
+import ClearCommand from '../Commands/ClearCommand.js';
+
 const Renderer = class {
 
-	constructor( container ) {
+	constructor( container, option = {} ) {
 
 		this.container = container;
 		this.canvas = this.initCanvas();
 		this.cxt = this.canvas.getContext( '2d' );
 		this.resize();
+
+		this.clearCommand = new ClearCommand( this.canvas );
 
 		this.commandList = [];
 
@@ -16,6 +20,9 @@ const Renderer = class {
 		const { commandList, canvas, cxt } = this;
 		commandList.splice( 0 );  // 清空渲染队列
 
+		// 添加清空指令
+		commandList.push( this.clearCommand );
+
 		// 将 scene 中存储的各个元素添加到渲染列表中
 		const { children } = scene;
 		for ( let i = 0, len = children.length; i < len; ++i ) {
@@ -25,7 +32,7 @@ const Renderer = class {
 		// 执行渲染队列
 		const { width, height } = canvas;
 		for ( let i = 0 , len = commandList.length; i < len; ++i ) {
-			commandList[ i ].render( cxt, width, height, clock );
+			commandList[ i ]._render( cxt, width, height, clock );
 		}
 	}
 
