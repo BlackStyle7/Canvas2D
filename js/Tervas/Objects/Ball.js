@@ -1,4 +1,4 @@
-import Command from '../Commands/Command.js';
+import Command from '../Commands/DrawCommand.js';
 
 const Ball = class {
 
@@ -11,7 +11,7 @@ const Ball = class {
 
 		const command = new Command( {
 			render: ( cxt, width, height ) => {
-				cxt.arc( 100, 100, 50, 0, Math.PI*2, true );
+				cxt.arc( width*0.5, height*0.5, 50, 0, Math.PI*2, true );
 				cxt.fill();
 			}
 		} );
@@ -19,7 +19,7 @@ const Ball = class {
 		return command;
 	}
 
-	update( commandList ) {
+	_update( commandList ) {
 
 		if ( !this.command ) this.command = this.initCommand();
 

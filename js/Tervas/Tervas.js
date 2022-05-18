@@ -1,43 +1,64 @@
-import Renderer from './Renderer/Renderer.js';
-import Scene from './Scene/Scene.js';
-import Clock from './Clock/Clock.js';
+// Viewer
+import Viewer from './Viewer/Viewer.js';
 
-const Tervas = class {
-	
-	constructor( container ) {
+// Renderer
+import AnimationRenderer from './Renderers/AnimationRenderer.js';
 
-		this.container = container;
-		this.renderer = new Renderer( container );
-		this.scene = new Scene();
-		this.clock = new Clock();
+// Objects
+import Object2D from './Objects/Object2D.js';
 
-		// tool canvas
-		this.toolCanvas = undefined;
+// Layers
+import SnowLayer from './Layers/SnowLayer.js';
 
-		// drive frame
-		window.requestAnimationFrame( this.driveFrame );
-	}
+// Math
+import Vector2 from './Math/Vector2.js';
+import CanvasMath from './Math/CanvasMath.js';
 
-	add( child ) {
+// Geometrys
+import Geometry from './Geometrys/Geometry.js';
+import PathGeometry from './Geometrys/PathGeometry.js';
 
-		this.scene.add( child );
-	}
+// Styles
+import Style from './Styles/Style.js';
 
-	driveFrame = totalTime => {
+// Events
+import EventCommander from './Events/EventCommander.js';
 
-		let needNextFrame = true;
-		try {
-			this.clock.update( totalTime / 1000.0 );  // 更新时间信息
-			this.renderer.render( this.scene, this.clock );
-		}
-		catch( e ) {
-			needNextFrame = false;
-			console.error( e, 'render is stoped.' );
-		}
+// Particles
+import Particle from './Particles/Particle.js';
+import SnowParticle from './Particles/SnowParticle.js';
 
-		if ( !needNextFrame ) return;
-		window.requestAnimationFrame( this.driveFrame );  // 驱动下一帧
-	}
-}
+const Tervas = {};
+
+// Viewer
+Tervas.Viewer = Viewer;
+
+// Renderer
+Tervas.AnimationRenderer = AnimationRenderer;
+
+// Objects
+Tervas.Object2D = Object2D;
+
+// Layers
+Tervas.SnowLayer = SnowLayer;
+
+// Math
+Tervas.Vector2 = Vector2;
+Tervas.CanvasMath = CanvasMath;
+
+// Geometrys
+Tervas.Geometry = Geometry;
+Tervas.PathGeometry = PathGeometry;
+
+// Styles
+Tervas.Style = Style;
+
+// Events
+Tervas.EventCommander = EventCommander;
+
+// Particles
+Tervas.Particle = Particle;
+Tervas.SnowParticle = SnowParticle;
+
 
 export default Tervas;

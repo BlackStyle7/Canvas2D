@@ -1,6 +1,7 @@
 import ClearCommand from '../Commands/ClearCommand.js';
+import EventCommander from '../Events/EventCommander.js';
 
-const Renderer = class {
+const AnimationRenderer = class {
 
 	constructor( container, option = {} ) {
 
@@ -9,14 +10,13 @@ const Renderer = class {
 		this.cxt = this.canvas.getContext( '2d' );
 		this.resize();
 
-		this.clearCommand = new ClearCommand( this.canvas );
+		this.clearCommand = new ClearCommand();
 
 		this.commandList = [];
-
-		this.initEventListeners();
+		this.postRender = new EventCommander();
 	}
 
-	render( scene, clock ) {
+	render( viewer ) {
 		const { commandList, canvas, cxt } = this;
 		commandList.splice( 0 );  // 清空渲染队列
 
@@ -24,32 +24,28 @@ const Renderer = class {
 		commandList.push( this.clearCommand );
 
 		// 将 scene 中存储的各个元素添加到渲染列表中
-		const { children } = scene;
+		const { children } = viewer.scene;
 		for ( let i = 0, len = children.length; i < len; ++i ) {
-			children[ i ].update( commandList );
+			children[ i ].update( commandList, viewer );
 		}
 
 		// 执行渲染队列
-		const { width, height } = canvas;
 		for ( let i = 0 , len = commandList.length; i < len; ++i ) {
-			commandList[ i ]._render( cxt, width, height, clock );
+			commandList[ i ].render( cxt, viewer );
 		}
+
+		// 绘制完毕后执行回调函数
+		this.postRender.traverse( func => {
+
+			func( viewer );
+		} );
 	}
 
-	resize = e => {
+	resize( e ) {
 
 		const { width, height } = this.container.getBoundingClientRect();
 		this.canvas.width = width;
 		this.canvas.height = height;
-	}
-
-	/**
-	 * 初始化事件
-	 */
-	initEventListeners() {
-
-		// resize
-		window.addEventListener( 'resize', this.resize );
 	}
 
 	/**
@@ -65,4 +61,4 @@ const Renderer = class {
 	}
 }
 
-export default Renderer;
+export default AnimationRenderer;

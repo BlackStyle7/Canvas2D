@@ -4,20 +4,40 @@
 		<meta content="text/html; charset=utf-8" http-equiv="content-type">
 		<style>
 			html body { height: 100%; margin: 0; overflow: hidden; }
-			.container { position: absolute; width: 100%; height: 100%; }
+			.container { position: absolute; width: 100%; height: 100%; background: #7b7b7b; }
 		</style>
 	</head>
 	<body>
 		<div class="container"></div>
 		<script type="module">
-            import Tervas from './js/Tervas/Tervas.js';
-            import Ball from './js/Tervas/Scene/Ball.js';
+			import Tervas from './js/Tervas/Tervas.js';
+			window.Tervas = Tervas;
 
-            const container = document.getElementsByClassName( 'container' )[ 0 ];
-            const tervas = new Tervas( container );
+			const container = document.getElementsByClassName( 'container' )[ 0 ];
+			window.viewer = new Tervas.Viewer( container );
 
-            const ball = new Ball();
-            tervas.add( ball );
+			window.snowLayer = viewer.add( new Tervas.SnowLayer( {
+				windDirection: new Tervas.Vector2( -2, 1 ),
+			} ) );
+
+			const number = 100;
+			for ( let i = 0; i < number; ++i ) {
+				
+				const v = new Tervas.Vector2();
+				const snowFlower = new Tervas.SnowParticle( {
+					lifeTimeRange: new Tervas.Vector2( 0.5, 1.0 ),
+					position: new Tervas.Vector2(
+						Math.random() * viewer.width,
+						Math.random() * viewer.height,
+					),
+					v: snowLayer.windDirection.copy( v ),
+					radius: 2,
+					vSize: 50,
+				} );
+				snowLayer.updateTarget( snowFlower );
+				snowLayer.add( snowFlower );
+			}
+
 		</script>
 	</body>
 </html>

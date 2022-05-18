@@ -1,15 +1,13 @@
-import Command from './Command.js';
+import DrawCommand from './DrawCommand.js';
 
-const ClearCommand = class extends Command {
+const ClearCommand = class extends DrawCommand {
 
-	constructor( canvas ) {
-		super( {
-			render: ( cxt, width, height ) => {
-				cxt.clearRect( 0.0, 0.0, width, height );
-			},
-		} );
+	constructor() {
+		super();
+	}
 
-		this.canvas = canvas;
+	render( cxt, viewer ) {
+		cxt.clearRect( 0, 0, viewer.width, viewer.height );
 	}
 }
 

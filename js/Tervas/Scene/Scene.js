@@ -1,13 +1,10 @@
-const Scene = class {
+import Object2D from '../Objects/Object2D.js';
 
-    constructor() {
+const Scene = class extends Object2D {
 
-        this.children = [];
-    }
-
-    add( child ) {
-        this.children.push( child );
-    }
+	constructor() {
+		super();
+	}
 }
 
 export default Scene;
