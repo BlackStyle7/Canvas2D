@@ -6,109 +6,13 @@
 			html body { height: 100%; margin: 0; overflow: hidden; }
 			.container { position: absolute; width: 100%; height: 100%; }
 		</style>
-		<script>
-
-			const Clock = class {
-
-				constructor() {
-
-					this.totalTime = 0;
-					this.frameTime = 0;
-				}
-
-				update( time ) {
-					this.frameTime = time - this.totalTime;
-					this.totalTime = time;
-				}
-			}
-	
-			const Viewer = class {
-	
-				constructor( container ) {
-					
-					this.container = container;
-					this.canvas = this.createCanvas();
-					this.cxt = this.canvas.getContext( '2d' );
-
-					this.renderList = [];
-					this.clock = new Clock();
-
-					this.resize();
-
-					this.start( 0 );
-				}
-
-				addRender( callFunc ) {
-					if ( typeof callFunc !== 'function' ) return;
-					this.renderList.push( callFunc ); 
-				}
-
-				start = time => {
-					window.requestAnimationFrame( this.start );
-					this.clock.update( time / 1000.0 );
-					for ( let i = 0, len = this.renderList.length; i < len; ++i ) {
-						this.renderList[ i ]( this.cxt, this.canvas.width, this.canvas.height );
-					}
-				}
-
-				resize() {
-					const { width, height } = this.container.getBoundingClientRect();
-					this.canvas.width = width;
-					this.canvas.height = height;
-				}
-
-				createCanvas() {
-					const { container } = this;
-
-					const canvas = document.createElement( 'canvas' );
-					container.appendChild( canvas );
-
-					return canvas;
-				}
-			}
-
-			const Ball = class {
-
-				constructor( x, y, a, r ) {
-
-					this.x = x;
-					this.y = y;
-					this.a = a;
-					this.r = r;
-					this.color = 'rgba( 255, 125, 255, 1.0 )';
-				}
-
-				render( cxt, width, height, time ) {
-
-					const x = ( this.x + this.a * Math.sin( time * 2  ) ) * width;
-					const y = this.y * height;
-					const r = this.r;
-
-					cxt.beginPath();
-					cxt.arc( x, y, r, 0, Math.PI*2, true );
-					cxt.fillStyle = this.color;
-					cxt.fill();
-				}
-			}
-		</script>
 	</head>
 	<body>
-		<div class="container"></div>
+		<div>
+			<a href="./snow.html">Snow</a>
+		</div>
 		<script>
-
-			const container = document.getElementsByClassName( 'container' )[ 0 ];
-			const viewer = new Viewer( container );
-
-			// 清除当前画布
-			viewer.addRender( ( cxt, width, height ) => {
-				cxt.clearRect( 0.0, 0.0, width, height );
-			} );
-
-			// 绘制球
-			const ball = new Ball( 0.5, 0.5, 0.1, 40 );
-			viewer.addRender( ( cxt, width, height ) => {
-				ball.render( cxt, width, height, viewer.clock.totalTime );
-			} );
+			
 		</script>
 	</body>
 </html>
