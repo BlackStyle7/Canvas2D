@@ -125,7 +125,7 @@ const SnowLayer = class extends Object2D {
 			// 更新粒子速度方向
 			Vector2.sub( snowFlower.target, snowFlower.position, this.delta );
 			this.delta.normalize();
-			this.delta.multiplyByScale( 0.5 );
+			this.delta.multiplyByScale( 0.3 );
 
 			snowFlower.v.add( this.delta );
 			snowFlower.v.normalize();
@@ -136,7 +136,9 @@ const SnowLayer = class extends Object2D {
 			const r = snowFlower.radius + this.style.shadowBlur;
 			const { x, y } = snowFlower.position;
 			if      ( x + r < 0      ) {  // 左边界
-				snowFlower.position.x = width + r;
+				const d = width + r - snowFlower.position.x;
+				snowFlower.position.x += d;
+				snowFlower.target.x += d;
 			}
 			else if ( x - r > width  ) {  // 右边界
 				snowFlower.position.x = -r;
@@ -145,7 +147,9 @@ const SnowLayer = class extends Object2D {
 				snowFlower.position.y = height + r;
 			}
 			else if ( y - r > height ) {  // 下边界
-				snowFlower.position.y = -r;
+				const d = snowFlower.position.y + r;
+				snowFlower.position.y -= d;
+				snowFlower.target.y -= d;
 			}
 		} );
 	}

@@ -20,15 +20,23 @@
 				windDirection: new Tervas.Vector2( -2, 1 ),
 			} ) );
 
+			const t = 20;
 			const number = 100;
-			for ( let i = 0; i < number; ++i ) {
+
+			const intervalID = setInterval( () => {
+
+				if ( snowLayer.children.length === 100 ) {
+					clearInterval( intervalID );
+					console.log( '雪已最大' );
+					return;
+				}
 				
 				const v = new Tervas.Vector2();
 				const snowFlower = new Tervas.SnowParticle( {
 					lifeTimeRange: new Tervas.Vector2( 0.5, 1.0 ),
 					position: new Tervas.Vector2(
 						Math.random() * viewer.width,
-						Math.random() * viewer.height,
+						-3,
 					),
 					v: snowLayer.windDirection.copy( v ),
 					radius: 2,
@@ -36,7 +44,7 @@
 				} );
 				snowLayer.updateTarget( snowFlower );
 				snowLayer.add( snowFlower );
-			}
+			}, t * 1000 / number  );
 
 		</script>
 	</body>
